@@ -12,14 +12,34 @@ The four types of anomalies are:
 - PROBING: surveillance and probing
 
 ## Steps
-- Reduce data dimension
+- Data pre-processing
 - Model selection and evaluation
 - MapReduce
 - Generalize method
 
-## Features
+## Data pre-processing
+### Original
+![](img/catagories.png)
+Source comes from [Analyze KDD99 data set by Sean Han](https://www.youtube.com/watch?v=mm38R3NsHso)
+
+### Use NSL DataSet [6]
+- Remove duplicated data
+- Remove the easiest data
+- Reduce bias on normal and dos attack
+
+### Reduce demension
+- PCA (Not perform well on this DataSet!)
+- Feature selection : Use Information Coefficient to judge the degree of association (21 out of 42)
+- K-means : model extraction (find each specific attack a best model)
+- Normalization : Euclidean distance
 
 ## Models
+### DT
+### NB (Bad Accuracy)
+### Random Forest
+### KNN
+### SVM (Should be the best)
+
 
 ## Evaluation
 ### Indicators
@@ -33,7 +53,13 @@ The four types of anomalies are:
 
 ## Reference
 [1] Özgür, Atilla and Hamit Erdem. “A review of KDD99 dataset usage in intrusion detection and machine learning between 2010 and 2015.” PeerJ PrePrints 4 (2016): e1954.
+
 [2] Solutions to kdd99 dataset with Decision tree and Neural network by scikit-learn https://github.com/PENGZhaoqing/kdd99-scikit
+
 [3] Results of the KDD'99 Classifier Learning Contest http://cseweb.ucsd.edu/~elkan/clresults.html
+
 [4] KDD99 Data http://www.kdd.org/kdd-cup/view/kdd-cup-1999/Data
+
 [5] K. Ibrahimi and M. Ouaddane, "Management of intrusion detection systems based-KDD99: Analysis with LDA and PCA," 2017 International Conference on Wireless Networks and Mobile Communications (WINCOM), Rabat, 2017, pp. 1-6
+
+[6] M. Tavallaee, E. Bagheri, W. Lu, and A. Ghorbani, “A Detailed Analysis of the KDD CUP 99 Data Set,” Submitted to Second IEEE Symposium on Computational Intelligence for Security and Defense Applications (CISDA), 2009.
