@@ -24,7 +24,7 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 
 ## Data pre-processing
 ### Original
-<img src="img/Catagories.png" width="50%" height="50%">
+<img src="img/catagories.png" width="50%" height="50%">
 
 Source comes from [Analyze KDD99 data set by Sean Han](https://www.youtube.com/watch?v=mm38R3NsHso)
 ### Analysis
@@ -32,8 +32,10 @@ Do the exploratory data analysis using `Pandas`
 
 ## Models
 Refer to the review of KDD99 dataset usage [1], these are the methods that are commonly used by researchers in proposed methods and for comparision.
-<img src="img/Methods.png" width="50%" height="50%">
-<img src="img/Comparision.png" width="50%" height="50%">
+<figure class="half">
+	<img src="img/Methods.png">
+	<img src="img/Comparision.png">
+</figure>
 Below are the Classifiers that I chose for comparision.
 ### SVM 
 This should be the best performing method according to [the results of the KDD'99 Classifier Learning Contest](http://cseweb.ucsd.edu/~elkan/clresults.html)
