@@ -14,8 +14,8 @@ The four types of anomalies are:
 The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-1999/Data)
 
 ## Todo List
-- Simple data pre-processing
-- Model selection 
+- ~Simple data pre-processing~
+- ~Model selection~ 
 - Training the 10 percent KDD DataSet
 - Evaluation
 - Improvements
@@ -27,15 +27,18 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 <img src="img/catagories.png" width="50%" height="50%">
 
 Source comes from [Analyze KDD99 data set by Sean Han](https://www.youtube.com/watch?v=mm38R3NsHso)
-### Analysis
-Do the exploratory data analysis using `Pandas`
+### Steps
+- Do the exploratory data analysis using `Pandas`
+- Identify the target category by number
+- Feature scaling
+- Generate a new file in the data directory
+- Import the training machine and test set in the data directory into the MongoDB database
 
 ## Models
 Refer to the review of KDD99 dataset usage [1], these are the methods that are commonly used by researchers in proposed methods and for comparision.
-<figure class="half">
-	<img src="img/Methods.png">
-	<img src="img/Comparision.png">
-</figure>
+
+<img src="img/Methods.png" width="40%"> <img src="img/Comparision.png" width="40%">
+
 Below are the Classifiers that I chose for comparision.
 ### SVM 
 This should be the best performing method according to [the results of the KDD'99 Classifier Learning Contest](http://cseweb.ucsd.edu/~elkan/clresults.html)
