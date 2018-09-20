@@ -7,14 +7,19 @@ import time
 rseed = 93
 from sklearn.externals import joblib
 from sklearn import svm
+from sklearn import tree
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 # ===========================================================
 # Argument settings
 # ===========================================================
 parser = argparse.ArgumentParser(description='KDD99 Examples')
 parser.add_argument('--dataset', type=str, default='10_percent', help='dataset to use (10_percent/full)')
-parser.add_argument('--model', type=str, default='svm', help='model to process (svm/cart/knn/nb/mlp/rf/all)')
-parser.add_argument('--operation', type=str, default='train', help='train/test/all')
+parser.add_argument('--model', type=str, default='knn', help='model to process (svm/dt/knn/nb/mlp/rf/all)')
+parser.add_argument('--operation', type=str, default='all', help='train/test/all')
 args = parser.parse_args()
 print(args, flush=True)
 
@@ -51,8 +56,18 @@ if args.operation == 'train' or args.operation == 'all':
 	time_start = time.time()
 	if args.model == 'svm':
 		model1 = svm.SVC(kernel='linear', C=1,verbose=True,random_state=rseed,decision_function_shape="ovo").fit(X_train_trans, y_train)
+	elif args.model == 'dt':
+		model1 = tree.DecisionTreeClassifier(random_state=0).fit(X_train_trans, y_train)
+	elif args.model == 'knn':
+		model1 = KNeighborsClassifier(n_neighbors=1).fit(X_train_trans, y_train)
+	elif args.model == 'nb':
+		model1 = GaussianNB().fit(X_train_trans, y_train)
+	elif args.model == 'mlp':
+		model1 = MLPClassifier(solver='adam', alpha=1e-5, hidden_layer_sizes=(10, 6), random_state=1).fit(X_train_trans, y_train)
+	elif args.model == 'rf':
+		model1 = RandomForestClassifier(n_estimators = 8, criterion = "entropy").fit(X_train_trans, y_train)
 	model1_name = "Models/model_"+args.model+"_on_10_percent_dataset.sav"
-	print("model completed, using time %5.2f seconde" % (time.time()-time_start), flush=True)
+	print("model completed, using time %5.2f seconds" % (time.time()-time_start), flush=True)
 	print("Saving Model...\n", flush=True)
 	joblib.dump(model1,model1_name)
 
@@ -66,10 +81,11 @@ else:
 	model = joblib.load(model_path)
 print("model information:\n%s: " % model, flush=True)
 print("number of labels: %d" % (model.classes_.shape[0]), flush=True)
-print("cache size: %d" % model.cache_size, flush=True)
 print("expected number of classes under one-vs-one model: %d" 
       % (model.classes_.shape[0]*(model.classes_.shape[0]-1)/2), flush=True)
-print("number of decisions from the model based on \'ovo\' %d" %model.decision_function(np.arange(0,38).reshape((1,-1))).shape[1], flush=True)
+if args.model == 'svm':
+	print("cache size: %d" % model.cache_size, flush=True)
+	print("number of decisions from the model based on \'ovo\' %d" %model.decision_function(np.arange(0,38).reshape((1,-1))).shape[1], flush=True)
 
 # ===========================================================
 #Testing
