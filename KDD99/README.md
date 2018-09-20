@@ -20,8 +20,8 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 - ~Simple data pre-processing~
 - ~Model selection~ 
 - ~Train under the 10 percent KDD dataset~
-- Evaluation
-- Visualization
+- ~Evaluation~
+- ~Visualization~
 - Use MapReduce/Spark to train the whole dataset
 - Improvements
 - Generalize method
@@ -45,7 +45,7 @@ Refer to the review of KDD99 dataset usage [1], these are the methods that are c
 
 Below are the Classifiers that I chose for comparision.
 ### SVM 
-This should be the best performing method according to [the results of the KDD'99 Classifier Learning Contest](http://cseweb.ucsd.edu/~elkan/clresults.html), but it didn't perform well under the 10 percent dataset. 
+This should be the best performing method according to [the results of the KDD'99 Classifier Learning Contest](http://cseweb.ucsd.edu/~elkan/clresults.html), but it didn't perform well under the 10 percent dataset because of overfitting. 
 
 Parameters refer to [glglgithub](https://github.com/glglgithub/CyberSecurity-A-Study-with-KDD99-Dataset).
 
@@ -60,44 +60,28 @@ number of labels: 5
 , cache size: 200
 , expected number of classes under one-vs-one model: 10
 , number of decisions from the model based on 'ovo': 10
-
-- training time: 136.18 seconds
-- accuracy based on training: 0.9978
-- accuracy based on testing: 0.8469
 	
 ### Decision Tree
 DecisionTreeClassifier(class_weight=None, criterion='gini', max_depth=None,max_features=None, max_leaf_nodes=None,min_impurity_decrease=0.0, min_impurity_split=None,min_samples_leaf=1, min_samples_split=2,min_weight_fraction_leaf=0.0, presort=False, random_state=None,splitter='best'):
 
-- training time: 1.95 seconds
-- accuracy based on training: 1.0000
-- accuracy based on testing: 0.9255
+Image of the Decision Tree has been exported to file "tree_vis.pdf", with information about training details on each node. 
+<img src="img/treevis.png" title="Picture of the Decision Tree">
 
 ### k-nearest neighbors
 Only one neighbor gets good results but still slow.
 
 KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',metric_params=None, n_jobs=1, n_neighbors=1, p=2,weights='uniform'):
 
-- training time: 1137.91 seconds
-- accuracy based on training: 1.0000
-- accuracy based on testing: 0.9185
-
 ### Naive Bayes 
 Bad Accuracy.
 
 GaussianNB(priors=None):
 
-- training time: 0.41 seconds
-- accuracy based on training: 0.8816
-- accuracy based on testing: 0.7293
 
 ### Neural Networks (MLP)
 Parameters refer to [PENGZhaoqing](https://github.com/PENGZhaoqing/kdd99-scikit).
 
 MLPClassifier(activation='relu', alpha=1e-05, batch_size='auto', beta_1=0.9,beta_2=0.999, early_stopping=False, epsilon=1e-08,hidden_layer_sizes=(10, 6), learning_rate='constant',learning_rate_init=0.001, max_iter=200, momentum=0.9,nesterovs_momentum=True, power_t=0.5, random_state=1, shuffle=True,solver='adam', tol=0.0001, validation_fraction=0.1, verbose=False, warm_start=False):
-
-- training time: 22.02 seconds
-- accuracy based on training: 0.9984
-- accuracy based on testing: 0.9221
 
 ### Random Forest
 Adjust parameters using `GridSearch`
@@ -123,18 +107,35 @@ RandomForestClassifier(bootstrap=True,
             oob_score=False, random_state=None, verbose=0,
             warm_start=False):
 
-- training time: 1.66 seconds
-- accuracy based on training: 0.9999
-- accuracy based on testing: 0.9219
-
 ## Evaluation
 The review [1] shows the usage of perform metrics
 <img src="img/PerformMatrixs.png" width="70%">
-### Indicators
+
+### Methods
+- Detection Rate: Comparing to the False Positive rate, in anomaly detection, we do not want to miss any possible error, thus accuracy seems to be more important.
+- Training & Testing Time: Also important in the context of big data.
+- Confusion Matrix: Give more details
+- ROC-Curve
 
 ### Results
+#### Using 10 percent dataset
+##### Comparing time and accuracy:
 
+|  Indicators | SVM | DT | KNN | NB | MLP | RF |
+| :------ | :------ | :------ | :------ | :------ | :------ | :------ |
+| Accuracy (training) | 0.9978 | 1.0000 | 1.0000 | 0.8816 | 0.9984 | 0.9999 | 
+| Accuracy (testing) | 0.8469 | 0.9255 | 0.9185 | 0.7293 | 0.9221 | 0.9219
+| Time (training) | 136.18s | 1.95s | 1137.91s | 0.41s | 22.02s | 1.66s | 
+
+##### Confusion Matrix of SVM, DT, and KNN:
+<img src="img/cm/svm.png" title="SVM" width="33%"><img src="img/cm/dt.png" title="DT" width="33%"><img src="img/cm/knn.png" title="KNN" width="33%">
+
+##### Confusion Matrix of NB, MLP, and RF:
+<img src="img/cm/nb.png" title="NB" width="33%"><img src="img/cm/mlp.png" title="MLP" width="33%"><img src="img/cm/rf.png" title="RF" width="33%">
 ### Reason Analysis
+- The SVM model is facing overfitting problem, more data may get a better result because the paramaters I refered to are not for the smaller dataset.
+- Decision tree and Random Forest gets some trouble on some catagories.
+- Naive Bayes is not suitable for this task since it tends to predict an "average" result instead of considering specific conditions.
 
 ## Improvements
 ### Use NSL DataSet [2]
@@ -151,7 +152,8 @@ The review [1] shows the usage of perform metrics
 - Cross validation : Only 21% of the studies from 2010 to 2015 applied cross validation [1]
 - Normalization : Euclidean distance
 
-## <span id="jump"> Usage </span>
+<span id="jump"></span>
+## Usage 
 ### Prerequisite
 
 ## Reference

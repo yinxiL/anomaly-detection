@@ -8,6 +8,7 @@ rseed = 93
 from sklearn.externals import joblib
 from sklearn import svm
 from sklearn import tree
+import pydotplus
 from sklearn.neighbors import KNeighborsClassifier 
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
@@ -18,7 +19,7 @@ from sklearn.ensemble import RandomForestClassifier
 # ===========================================================
 parser = argparse.ArgumentParser(description='KDD99 Examples')
 parser.add_argument('--dataset', type=str, default='10_percent', help='dataset to use (10_percent/full)')
-parser.add_argument('--model', type=str, default='knn', help='model to process (svm/dt/knn/nb/mlp/rf/all)')
+parser.add_argument('--model', type=str, default='svm', help='model to process (svm/dt/knn/nb/mlp/rf)')
 parser.add_argument('--operation', type=str, default='all', help='train/test/all')
 args = parser.parse_args()
 print(args, flush=True)
@@ -58,6 +59,17 @@ if args.operation == 'train' or args.operation == 'all':
 		model1 = svm.SVC(kernel='linear', C=1,verbose=True,random_state=rseed,decision_function_shape="ovo").fit(X_train_trans, y_train)
 	elif args.model == 'dt':
 		model1 = tree.DecisionTreeClassifier(random_state=0).fit(X_train_trans, y_train)
+		class_names = np.unique([str(i) for i in y_train])
+		feature_names = col_names[4:-1]
+		feature_names.insert(0, col_names[0])
+		dot_data = tree.export_graphviz(model1, out_file=None,
+                                feature_names=feature_names,
+                                class_names=class_names,
+                                filled=True, rounded=True,
+                                special_characters=True)
+		graph = pydotplus.graph_from_dot_data(dot_data)
+		graph.write_pdf("tree-vis.pdf")
+		print("Have save the tree in tree-vis.pdf", flush=True)
 	elif args.model == 'knn':
 		model1 = KNeighborsClassifier(n_neighbors=1).fit(X_train_trans, y_train)
 	elif args.model == 'nb':
@@ -94,4 +106,5 @@ if args.operation == 'test' or args.operation == 'all':
 	print("Testing...\n", flush=True)
 	print("accuracy based on training: %5.4f" % model.score(X_train_trans, y_train), flush=True)  
 	print("accuracy based on testing: %5.4f" % model.score(X_test_trans, y_test), flush=True)  
+	
 
