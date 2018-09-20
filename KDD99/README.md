@@ -1,7 +1,7 @@
 # KDD99 Computer Network Intrusion Detection
 This is a comparision over several methods on the KDD99 dataset. 
 
-For usage, go [there](##Usage).
+For usage, go [there](#usage).
 
 ## DataSet
 DARPA collected 9 weeks of TCPdump network connectivity and system audit data, simulating various user types, various network traffic and attack methods, with the 7-week's training data probably contains more than 5,000,000 network connection records, and the remaining 2 weeks of test data probably contains 2,000,000 network connection records.
@@ -23,7 +23,7 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 - ~Evaluation~
 - ~Visualization~
 - Run the whole dataset in parallel
-- [Improvements](##Improvements)
+- [Improvements](#improvements)
 
 ## Data pre-processing
 ### Original
@@ -155,6 +155,16 @@ The review [1] shows the usage of perform metrics
 
 ## Usage 
 ### Prerequisite
+The models were trained under Python 3.6.6 :: Anaconda custom (64-bit)
+
+Using `argparse`, `numpy`, `pandas`, `sklearn`, `time`, and `pydotplus`
+
+### Data Pre-processing
+- download and put the initial data in the "data" sub-folder 
+- run $python DataPreprocessing.py --dataset <10_percent/full>
+
+### Training or Testing
+run $python main.py --dataset <10_percent/full> --model <svm/dt/knn/nb/mlp/rf> --operation <train/test/all>
 
 ## Reference
 [1] Özgür, Atilla and Hamit Erdem. “A review of KDD99 dataset usage in intrusion detection and machine learning between 2010 and 2015.” PeerJ PrePrints 4 (2016): e1954.
