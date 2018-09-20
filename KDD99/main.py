@@ -29,7 +29,9 @@ print(args, flush=True)
 # ===========================================================
 print("Loading Data...\n", flush=True)
 if args.dataset == 'full':
+	print("I'm here...\n", flush=True)
 	data_cmb = pd.read_csv("data/kddcup.data_transformed.txt", header=None, names = col_names, low_memory=False)
+	print("I've make it here...\n", flush=True)
 else:
 	data_cmb = pd.read_csv("data/kddcup.data_10_percent_transformed.txt", header=None, names = col_names, low_memory=False)
 data_test = pd.read_csv("data/corrected_transformed.txt", header=None, names = col_names, low_memory=False)

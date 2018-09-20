@@ -1,7 +1,7 @@
 # KDD99 Computer Network Intrusion Detection
 This is a comparision over several methods on the KDD99 dataset. 
 
-For usage, go [there](#jump).
+For usage, go [there](##Usage).
 
 ## DataSet
 DARPA collected 9 weeks of TCPdump network connectivity and system audit data, simulating various user types, various network traffic and attack methods, with the 7-week's training data probably contains more than 5,000,000 network connection records, and the remaining 2 weeks of test data probably contains 2,000,000 network connection records.
@@ -22,9 +22,8 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 - ~Train under the 10 percent KDD dataset~
 - ~Evaluation~
 - ~Visualization~
-- Use MapReduce/Spark to train the whole dataset
-- Improvements
-- Generalize method
+- Run the whole dataset in parallel
+- [Improvements](##Improvements)
 
 ## Data pre-processing
 ### Original
@@ -36,7 +35,9 @@ Source comes from [Analyze KDD99 data set by Sean Han](https://www.youtube.com/w
 - Identify the target category by number
 - Handle discrete features by One-hot encoding 
 - Generate a new file in the data directory
-- Note that there is an error data on the line 485798, remove before or it will break the training process.
+- Note that there is an error data on the line 485798, remove before or it will break the training process. We can use the check_array() in sklearn to locate the problem
+		from sklearn.utils.validation import check_array
+		check_array(X_train, ensure_2d=False, dtype=float)
 
 ## Models
 Refer to the review of KDD99 dataset usage [1], these are the methods that are commonly used by researchers in proposed methods and for comparision.
@@ -152,7 +153,6 @@ The review [1] shows the usage of perform metrics
 - Cross validation : Only 21% of the studies from 2010 to 2015 applied cross validation [1]
 - Normalization : Euclidean distance
 
-<span id="jump"></span>
 ## Usage 
 ### Prerequisite
 

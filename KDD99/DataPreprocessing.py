@@ -1,5 +1,10 @@
+import argparse
 from io import open
 from Definition import *
+
+parser = argparse.ArgumentParser(description='KDD99 Examples')
+parser.add_argument('--dataset', type=str, default='10_percent', help='dataset to transform (10_percent/full)')
+args = parser.parse_args()
 
 def transform_type(input_file, output_file):
     with open(output_file, "w") as text_file:
@@ -18,5 +23,8 @@ def transform_type(input_file, output_file):
                     text_file.write(line)
                     print(line)
 
-transform_type("data/kddcup.data_10_percent.txt", "data/kddcup.data_10_percent_transformed.txt")
+if args.dataset == 'full':
+	transform_type("data/kddcup.data.txt", "data/kddcup.data_transformed.txt")
+else:
+	transform_type("data/kddcup.data_10_percent.txt", "data/kddcup.data_10_percent_transformed.txt")
 transform_type("data/corrected.txt", "data/corrected_transformed.txt")
