@@ -18,6 +18,7 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 - ~Model selection~ 
 - Training the 10 percent KDD DataSet
 - Evaluation
+- Visualization
 - Improvements
 - Use MapReduce or Spark to train the whole dataset
 - Generalize method
@@ -30,9 +31,7 @@ Source comes from [Analyze KDD99 data set by Sean Han](https://www.youtube.com/w
 ### Steps
 - Do the exploratory data analysis using `Pandas`
 - Identify the target category by number
-- Feature scaling
 - Generate a new file in the data directory
-- Import the training machine and test set in the data directory into the MongoDB database
 
 ## Models
 Refer to the review of KDD99 dataset usage [1], these are the methods that are commonly used by researchers in proposed methods and for comparision.
