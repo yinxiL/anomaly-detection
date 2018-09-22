@@ -20,7 +20,7 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 - ~Simple data pre-processing~
 - ~Model selection~ 
 - ~Train under the 10 percent KDD dataset~
-- ~[Evaluation](#evalustion)~
+- ~[Evaluation](#evaluation)~
 - ~Visualization~
 - ~Run the whole dataset in parallel~
 - [Improvements](#improvements)
@@ -111,6 +111,7 @@ RandomForestClassifier(bootstrap=True,
 ## Evaluation
 The review [1] shows the usage of perform metrics on the KDD99 dataset from 2010 to 2015.
 <img src="img/PerformMatrixs.png" width="70%">
+
 Since the dataset is shewed, the accuracy must be pretty high, so we use these methods to evaluate these models.
 
 ### Methods
@@ -130,6 +131,7 @@ Only svm has a large change in prediction accuracy when the data set size change
 It seems that Decision Tree is the best method here, with the highest Detection Rate and the Lowest False Positive ate the same time. But in particular, these models have their own characteristics. SVM can detect most of the 3rd class's anomaly, while has no effect on detecting the 4th class. DT, on the contrary, can detect some of the 4th class error but do poorly with the 3rd. The final result has a lot to do with category proportion.
 
 <img src="img/details.png" title="Comparison Result">
+
 #### 2. Training and Testing time
 
 |  Time | SVM | DT | KNN | NB | MLP | RF |
