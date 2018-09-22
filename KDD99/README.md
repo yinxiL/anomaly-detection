@@ -20,9 +20,9 @@ The whole DataSet can be found [here](http://www.kdd.org/kdd-cup/view/kdd-cup-19
 - ~Simple data pre-processing~
 - ~Model selection~ 
 - ~Train under the 10 percent KDD dataset~
-- ~Evaluation~
+- ~[Evaluation](#evalustion)~
 - ~Visualization~
-- Run the whole dataset in parallel
+- ~Run the whole dataset in parallel~
 - [Improvements](#improvements)
 
 ## Data pre-processing
@@ -46,7 +46,7 @@ Refer to the review of KDD99 dataset usage [1], these are the methods that are c
 
 Below are the Classifiers that I chose for comparision.
 ### SVM 
-This should be the best performing method according to [the results of the KDD'99 Classifier Learning Contest](http://cseweb.ucsd.edu/~elkan/clresults.html), but it didn't perform well under the 10 percent dataset because of overfitting. 
+This should be the best performing method according to [the results of the KDD'99 Classifier Learning Contest](http://cseweb.ucsd.edu/~elkan/clresults.html), but it didn't perform well under the 10 percent dataset because of severe overfitting. 
 
 Parameters refer to [glglgithub](https://github.com/glglgithub/CyberSecurity-A-Study-with-KDD99-Dataset).
 
@@ -109,30 +109,45 @@ RandomForestClassifier(bootstrap=True,
             warm_start=False):
 
 ## Evaluation
-The review [1] shows the usage of perform metrics
+The review [1] shows the usage of perform metrics on the KDD99 dataset from 2010 to 2015.
 <img src="img/PerformMatrixs.png" width="70%">
+Since the dataset is shewed, the accuracy must be pretty high, so we use these methods to evaluate these models.
 
 ### Methods
-- Detection Rate: Comparing to the False Positive rate, in anomaly detection, we do not want to miss any possible error, thus accuracy seems to be more important.
+- Detection Rate: In anomaly detection, we do not want to miss any possible error, thus accuracy seems to be the most important factor.
+- False Positive: Even though we want to detect all error, we don't want the False Positive Rate to be too high.
 - Training & Testing Time: Also important in the context of big data.
-- Confusion Matrix: Give more details
-- ROC-Curve
+- Confusion Matrix (5 classes) : Give more details
+- ROC-Curve: Only in dichotomous data
+
 
 ### Results
-#### Using 10 percent dataset
-##### Comparing time and accuracy:
+Only svm has a large change in prediction accuracy when the data set size changes. So I only compare the results when they use full dataset below. More details can be found.
 
-|  Indicators | SVM | DT | KNN | NB | MLP | RF |
+#### 1. Detection Rate and False Positive
+<img src="img/comparison.png" title="Comparison Result">
+
+It seems that Decision Tree is the best method here, with the highest Detection Rate and the Lowest False Positive ate the same time. But in particular, these models have their own characteristics. SVM can detect most of the 3rd class's anomaly, while has no effect on detecting the 4th class. DT, on the contrary, can detect some of the 4th class error but do poorly with the 3rd. The final result has a lot to do with category proportion.
+
+<img src="img/details.png" title="Comparison Result">
+#### 2. Training and Testing time
+
+|  Time | SVM | DT | KNN | NB | MLP | RF |
 | :------ | :------ | :------ | :------ | :------ | :------ | :------ |
-| Accuracy (training) | 0.9978 | 1.0000 | 1.0000 | 0.8816 | 0.9984 | 0.9999 | 
-| Accuracy (testing) | 0.8469 | 0.9255 | 0.9185 | 0.7293 | 0.9221 | 0.9219
-| Time (training) | 136.18s | 1.95s | 1137.91s | 0.41s | 22.02s | 1.66s | 
+| Training | 76988.02s<br>(21.385h) | 21.10s | 98266.44s <br>(27.296h) | 3.36s | 278.47s<br>(4.64min) | 16.98s | 
+| Testing | 428.41s<br>(7.14min) | 0.06s | Still Running | 0.76s | 0.26s | 0.27s |
 
+KNN is definitely the most time-consuming method, next to it is SVM, both of their time consumed increases by more multiples of the sample size increases. 
+
+MLP. like other neural networks, need more time on training but can be really fast when testing.
+
+#### 3. Confusion Matrix
 ##### Confusion Matrix of SVM, DT, and KNN:
-<img src="img/cm/svm.png" title="SVM" width="33%"><img src="img/cm/dt.png" title="DT" width="33%"><img src="img/cm/knn.png" title="KNN" width="33%">
+<img src="img/cm/svm.png" title="SVM" width="33%"><img src="img/cm/dt_full.png" title="DT" width="33%"><img src="img/cm/knn.png" title="KNN" width="33%">
 
 ##### Confusion Matrix of NB, MLP, and RF:
-<img src="img/cm/nb.png" title="NB" width="33%"><img src="img/cm/mlp.png" title="MLP" width="33%"><img src="img/cm/rf.png" title="RF" width="33%">
+<img src="img/cm/nb_full.png" title="NB" width="33%"><img src="img/cm/mlp_full.png" title="MLP" width="33%"><img src="img/cm/rf_full.png" title="RF" width="33%">
+
 ### Reason Analysis
 - The SVM model is facing overfitting problem, more data may get a better result because the paramaters I refered to are not for the smaller dataset.
 - Decision tree and Random Forest gets some trouble on some catagories.

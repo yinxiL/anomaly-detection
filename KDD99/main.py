@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from Definition import *
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import classification_report, confusion_matrix, roc_curve
 import time
 rseed = 93
 from sklearn.externals import joblib
@@ -18,9 +19,9 @@ from sklearn.ensemble import RandomForestClassifier
 # Argument settings
 # ===========================================================
 parser = argparse.ArgumentParser(description='KDD99 Examples')
-parser.add_argument('--dataset', type=str, default='10_percent', help='dataset to use (10_percent/full)')
-parser.add_argument('--model', type=str, default='svm', help='model to process (svm/dt/knn/nb/mlp/rf)')
-parser.add_argument('--operation', type=str, default='all', help='train/test/all')
+parser.add_argument('--dataset', type=str, default='full', help='dataset to use (10_percent/full)')
+parser.add_argument('--model', type=str, default='rf', help='model to process (svm/dt/knn/nb/mlp/rf)')
+parser.add_argument('--operation', type=str, default='test', help='train/test/all')
 args = parser.parse_args()
 print(args, flush=True)
 
@@ -28,15 +29,14 @@ print(args, flush=True)
 #Loading Data
 # ===========================================================
 print("Loading Data...\n", flush=True)
-if args.dataset == 'full':
-	print("I'm here...\n", flush=True)
+if args.dataset == 'full' and args.operation != 'test':
 	data_cmb = pd.read_csv("data/kddcup.data_transformed.txt", header=None, names = col_names, low_memory=False)
-	print("I've make it here...\n", flush=True)
-else:
+elif args.operation != 'test':
 	data_cmb = pd.read_csv("data/kddcup.data_10_percent_transformed.txt", header=None, names = col_names, low_memory=False)
 data_test = pd.read_csv("data/corrected_transformed.txt", header=None, names = col_names, low_memory=False)
-X_train = data_cmb.copy().drop(['label'],axis=1)
-y_train = data_cmb['label']
+if args.operation != 'test':
+	X_train = data_cmb.copy().drop(['label'],axis=1)
+	y_train = data_cmb['label']
 X_test = data_test.copy().drop(['label'],axis=1)
 y_test = data_test['label']
 
@@ -44,11 +44,13 @@ y_test = data_test['label']
 #Dropping and Scaling 
 # ===========================================================
 print("Dropping and Scaling...\n", flush=True)
-X_train_trans = X_train.drop(X_train.columns[[1,2,3]],axis=1)
-scaling = MinMaxScaler(feature_range=(-1,1)).fit(X_train_trans)
-X_train_trans = scaling.transform(X_train_trans)
+if args.operation != 'test':
+	X_train_trans = X_train.drop(X_train.columns[[1,2,3]],axis=1)
+	scaling = MinMaxScaler(feature_range=(-1,1)).fit(X_train_trans)
+	X_train_trans = scaling.transform(X_train_trans)
                                              
 X_test_trans = X_test.drop(X_test.columns[[1,2,3]],axis=1)
+scaling = MinMaxScaler(feature_range=(-1,1)).fit(X_test_trans)
 X_test_trans = scaling.transform(X_test_trans)
 
 # ===========================================================
@@ -71,7 +73,7 @@ if args.operation == 'train' or args.operation == 'all':
                                 special_characters=True)
 		graph = pydotplus.graph_from_dot_data(dot_data)
 		graph.write_pdf("tree-vis.pdf")
-		print("Have save the tree in tree-vis.pdf", flush=True)
+		print("Have saved the tree in tree-vis.pdf", flush=True)
 	elif args.model == 'knn':
 		model1 = KNeighborsClassifier(n_neighbors=1).fit(X_train_trans, y_train)
 	elif args.model == 'nb':
@@ -80,7 +82,7 @@ if args.operation == 'train' or args.operation == 'all':
 		model1 = MLPClassifier(solver='adam', alpha=1e-5, hidden_layer_sizes=(10, 6), random_state=1).fit(X_train_trans, y_train)
 	elif args.model == 'rf':
 		model1 = RandomForestClassifier(n_estimators = 8, criterion = "entropy").fit(X_train_trans, y_train)
-	model1_name = "Models/model_"+args.model+"_on_10_percent_dataset.sav"
+	model1_name = "Models/model_"+args.model+"_on_"+args.dataset+"_dataset.sav"
 	print("model completed, using time %5.2f seconds" % (time.time()-time_start), flush=True)
 	print("Saving Model...\n", flush=True)
 	joblib.dump(model1,model1_name)
@@ -91,7 +93,7 @@ if args.operation == 'train' or args.operation == 'all':
 if args.operation == 'train' or args.operation == 'all':
 	model = model1
 else:
-	model_path = "Models/model_"+args.model+"_on_10_percent_dataset.sav"
+	model_path = "Models/model_"+args.model+"_on_"+args.dataset+"_dataset.sav"
 	model = joblib.load(model_path)
 print("model information:\n%s: " % model, flush=True)
 print("number of labels: %d" % (model.classes_.shape[0]), flush=True)
@@ -106,7 +108,9 @@ if args.model == 'svm':
 # ===========================================================
 if args.operation == 'test' or args.operation == 'all':
 	print("Testing...\n", flush=True)
-	print("accuracy based on training: %5.4f" % model.score(X_train_trans, y_train), flush=True)  
-	print("accuracy based on testing: %5.4f" % model.score(X_test_trans, y_test), flush=True)  
+	time_start1 = time.time()
+	trained_target = model.predict(X_test_trans)
+	print("testing completed, using time %5.2f seconds" % (time.time()-time_start1), flush=True)
+	print (classification_report(y_test, trained_target), flush=True)
 	
 
