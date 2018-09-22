@@ -132,6 +132,14 @@ It seems that Decision Tree is the best method here, with the highest Detection 
 
 <img src="img/details.png" title="Comparison Result">
 
+Below are the other indicators:
+
+ |  Indicators | SVM | DT | KNN | NB | MLP | RF |
+| :------ | :------ | :------ | :------ | :------ | :------ | :------ |
+| Precision | 0.89 | 0.90 | 0.89 | 0.82 | 0.89 | 0.89 | 
+| Recall | 0.92 | 0.92 | 0.92 | 0.69 | 0.92 | 0.92 | 
+| F1-score | 0.90 | 0.90 | 0.90 | 0.74 | 0.90 | 0.90 |
+
 #### 2. Training and Testing time
 
 |  Time | SVM | DT | KNN | NB | MLP | RF |
@@ -145,7 +153,7 @@ MLP. like other neural networks, need more time on training but can be really fa
 
 #### 3. Confusion Matrix
 ##### Confusion Matrix of SVM, DT, and KNN:
-<img src="img/cm/svm.png" title="SVM" width="33%"><img src="img/cm/dt_full.png" title="DT" width="33%"><img src="img/cm/knn.png" title="KNN" width="33%">
+<img src="img/cm/svm_full.png" title="SVM" width="33%"><img src="img/cm/dt_full.png" title="DT" width="33%"><img src="img/cm/knn.png" title="KNN" width="33%">
 
 ##### Confusion Matrix of NB, MLP, and RF:
 <img src="img/cm/nb_full.png" title="NB" width="33%"><img src="img/cm/mlp_full.png" title="MLP" width="33%"><img src="img/cm/rf_full.png" title="RF" width="33%">
