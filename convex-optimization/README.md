@@ -62,6 +62,77 @@ Convex optimization also plays an important role in problems that are not convex
 	-  Equality constrained optimization
 	-  Inequality constrained optimization
 
+## 2. Convex sets
+### 2.1 Definition
+θx1 + (1−θ)x2 ∈ C for any x1 , x2 ∈ C and 0 ≤ θ ≤ 1
+
+### 2.2 Examples
+- __Hyperplanes and halfspaces__: {x|aTx = b}, {x|aTx ≤ b}
+- __Euclidean balls and ellipsoids__: {x|||x−xc||2≤r} = {x│(x−xc)T(x−xc)≤r2}, {x│(x−xc)TP−1(x−xc)≤1}in which P is symmetric and positive definite.
+- __Norm balls and norm cones__: {x|||x−xc||≤r}, {(x,t)|||x||≤t}
+- __Polyhedra__: {x|aTjx≤bj,j=1,…,m,cTjx≤dj,j=1,…,p}
+- __The positive semidefinite cone__: The set Sn+ is a convex cone: if θ1 ,θ2 ≥ 0 and A, B ∈ Sn+ , then θ1A + θ2B ∈ Sn+.
+
+### 2.3 Operations that preserve convexity
+- __Intersection__
+- __Affine functions__: Has the form f(x) = Ax + b, where A ∈ Rm×n and b ∈ Rm 
+- __Linear-fractional and perspective functions__: f(x)=(Ax+b)/(cTx+d) dom f = {x | cTx + d > 0} can be seen as stretching in the original set and Its inverse function also preserve convex, P(z,t)=z/t Similar to small hole imaging, it is a mapping from high dimension to low dimension.
+
+### 2.4 Generalized inequalities
+Defines a comparison between variables with multiple components:
+
+x≥<sub>K</sub>y <=> x−y∈K
+ 
+x><sub>K</sub>y <=> x−y∈int K
 
 
+int K is the internal point of K, notice that K must be a closed, solid, pointed convex.
+
+__Minimum__: Can be compared to all points in the collection and is minimal. 
+
+__Minimal__: The smallest of all points that can be compared within a collection.
+
+### 2.5 Separating and supporting hyperplanes
+
+__Separating__: The hyperplane that can separate the two sets, and strictly, that is, the two sets have no intersection. There must be one split plane for the two convex sets.
+
+__Supporting hyperplanes__: There is a point x0 at the edge of the set that makes aTx ≤ aTx0, Where x0 is a point within the collection, and a≠0.
+
+### 2.6 Dual cones and generalized inequalities
+Let K be a cone. The set K∗ = {y | xTy ≥ 0 for all x ∈ K} is called the dual cone of K. As the name suggests, K∗ is a cone, and is always convex, even when the original cone K is not.
+
+Examples of dual cones:
+- Subspace
+- Non-negative orthant
+- Positive semidefinite cone
+- Dual of a norm cone
+
+Properties of dual cones:
+- If K has nonempty interior, then K∗ is pointed.
+- If the closure of K is pointed then K∗ has nonempty interior.
+- K∗∗ is the closure of the convex hull of K. (Hence if K is convex and closed, K ∗∗ = K.)
+
+Important properties relating a generalized inequality and its dual:
+- x ≤ Ky if and only if λTx ≤ λTy for all λ ≥ K ∗ 0.
+- x ≺ Ky if and only if λTx < λTy for all λ ≥ K ∗ 0, λ ≠ 0.
+
+__Minimum element__: 
+- __Properties__: x is the minimum element of S, with respect to the generalized inequality ≤ K , if and only if for all λ ≻ K∗ 0, x is the unique minimizer of λTz over z ∈ S. Geometrically, this means that for any λ ≻ K ∗ 0, {z | λT (z − x) = 0} is a strict supporting hyperplane to S at x.
+- The point x is the minimum element of the set S with respect to R<sup>2</sup>+. This is __Equivalent to__
+For every λ ≻ 0, the hyperplane {z | λ T (z − x) = 0} strictly supports S at x, i.e., contains S on one side, and touches it only at x.
+
+__Minimal elements__:
+
+If λ ≻ K∗0 and x minimizes λ<sup>T</sup>z over z ∈ S, then x is minimal.
+
+Geometrically, it is very similar to the theorem of the smallest element, but this time there may be more than one supporting hyperplane.
+
+The inverse proposition of this proposition is only established when S is convex. If S is not a convex set, then the minimal element x on S may not be the solution of minimizing λTz on z∈S for any λ.
+
+A point x2 ∈ S2 can be not minimal, but does minimize
+λTz over z ∈ S2 for λ = (0,1) ≥ 0 at the same time.
+
+
+## 3. Convex functions
+### 3.1 Basic properties and examples
 
