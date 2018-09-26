@@ -362,9 +362,107 @@ Usually, the set of achievable objective values does not have a minimum
 element. In these cases minimal elements of the set of achievable values play an important role.
 
 Scalarization: 
+> 
 > minimize λ<sup>T</sup>f0 (x)
 > subject to fi (x) ≤ 0, i = 1,...,m
 > hi (x) = 0, i = 1,...,p,
 
 ## 5. Duality
 ### 5.1 The Lagrange dual function
+Consider an optimization problem in the standard form:
+> minimize f0(x)
+> subject to fi(x) ≤ 1, i = 1,...,m
+> hi(x) = 1, i = 1,...,p
+
+The Lagrangian L associated with this problem is:
+> L(x,λ,ν) = f 0 (x) + \sum{i=1}^{m}λifi(x) + \sum{i=1}^{p}vihi(x)
+
+The vectors λ and
+ν are called the _dual variables_ or _Lagrange multiplier vectors_
+
+The Lagrange dual function is defined as the minimum value of the Lagrangian over x. 
+
+>g(λ,ν) = inf<sub>x∈D</sub> L(x,λ,ν) = inf<sub>x∈D</sub> (f0 (x) + \sum{i=1}^{m}λifi + \sum{i=1}^{p}vihi(x))
+
+Since the dual function is the pointwise infimum of a family of affine functions of (λ,ν), it is concave, even when the Lagrangian is not convex.
+
+The dual function yields lower bounds on the optimal value p⋆, we have g(λ,ν) ≤ p⋆
+
+### 5.2 The Lagrange dual problem
+Only the _best_ lower-bound matters.
+Therefore the optimization dual problem is defined as:
+> maximize g(λ,ν)
+> subject to λ ≥ 0.
+
+Denote the optimal value of the Lagrange dual problem d⋆:
+> d⋆ ≤ p⋆
+
+which holds even if the original problem is not convex. This property is called _weak duality_.
+
+We refer to the difference p⋆ − d⋆ as the _optimal duality gap_, when the _optimal duality gap_ is zero, then we say that _strong duality_ holds.
+
+If the primal problem is convex, we usually (but not always) have strong duality. There are many results that establish conditions on the problem, beyond convexity, under which strong duality holds. These conditions are called _constraint qualifications_.
+
+One simple constraint qualification is _Slater’s condition_:
+>  There exists an x ∈
+relint D such that fi (x) < 0, i = 1,...,m, Ax = b. 
+
+### 5.3 Geometric interpretation
+- Weak and strong duality via set of values
+- Proof of strong duality under constraint qualification
+- Multicriterion interpretation
+
+### 5.4 Saddle-point interpretation
+- Max-min characterization of weak and strong duality
+- Saddle-point interpretation
+- Game interpretation
+- Price or tax interpretation
+
+### 5.5 Optimality conditions
+__Complementary slackness__: 
+
+Suppose that the primal and dual optimal values are attained and equal (so, in particular, strong duality holds). Let x ⋆ be a primal optimal and (λ ⋆ ,ν ⋆ ) be a dual optimal point. This means that:
+> f0(x⋆) = g(λ⋆, ν⋆) __The optimal dual gap is 0__
+> = inf<sub>x</sub>(f0(x) + \sum{i=1}^{m}λ<sup>⋆</sup><sub>i</sub> f<sub>i</sub>(x) + \sum{i=1}^{p}v<sup>⋆</sup><sub>i</sub> h<sub>i</sub>(x)) __Definition of lagrange dual function__
+> ≤ f0(x⋆) + \sum{i=1}^{m}λ<sup>⋆</sup><sub>i</sub> f<sub>i</sub>(x) + \sum{i=1}^{p}v<sup>⋆</sup><sub>i</sub> h<sub>i</sub>(x) __The minimum value of the lagrange function is less than the value at x=x∗__
+> ≤ f0(x⋆) When the dual function obtains the optimal value, __λ∗i≥0__, and When the original problem is optimal, __fi(x∗)≤0 and hi(x∗)=0__
+
+Therefore:
+> \sum{i=1}^{m}λ<sub>i</sub><sup>⋆</sup>f<sub>i</sub>(x<sup>⋆</sup>)≤0
+
+And because each item in this sum is non-positive, they are all 0, which is known as _complementary slackness_.
+
+__KKT optimality conditions__
+As above, let x ⋆ and (λ ⋆ ,ν ⋆ ) be any primal and dual optimal points with zero duality gap. Since x ⋆ minimizes L(x,λ ⋆ ,ν ⋆ ) over x, it follows that its gradient must vanish at x ⋆ , i.e.,
+> ∇f0(x∗)+∑i=1mλ∗i∇fi(x∗)+∑i=1pv∗i∇hi(x∗)=0
+
+Thus we have
+> - fi(x∗)≤0
+- hi(x∗)=0
+- λ∗i≥0
+- λ∗ifi(x∗)=0
+- ∇f0(x∗)+∑i=1mλ∗i∇fi(x∗)+∑i=1pv∗i∇hi(x∗)=0
+
+which are called the Karush-Kuhn-Tucker (KKT) conditions.
+
+
+### 5.6 Perturbation and sensitivity analysis
+
+When the optimization problem is a non-convex problem, it can be solved by turning the problem into a dual problem. If the strong dual is true and there is a dual optimal solution, then the best advantage of any original problem is the optimal solution of L(x, λ∗, v∗).
+
+### 5.7 Examples
+Consider the following types
+of reformulations:
+- Introducing new variables and associated equality constraints.
+- Replacing the objective with an increasing function of the original objective.
+- Making explicit constraints implicit, i.e., incorporating them into the domain
+of the objective.
+
+### 5.8 Theorems of alternatives
+
+### 5.9 Generalized inequalities
+
+
+
+
+ 
